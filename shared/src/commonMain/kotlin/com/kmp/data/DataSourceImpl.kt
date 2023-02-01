@@ -21,7 +21,11 @@ class DataSourceImpl : KoinComponent, DataSource {
     }
 
     override suspend fun accessToken(username: String, password: String) {
-        val result = authApi.getAccessToken(AuthReq(username, password))
-        println(result)
+        authApi.getAccessToken(AuthReq(username, password))?.fold(
+            failed = { println(it.message) },
+            succeeded = {
+                println(it)
+            },
+        )
     }
 }
